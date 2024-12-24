@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "301103447500",
+    "project_id": "app-chat-b738e",
+    "storage_bucket": "app-chat-b738e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301103447500:android:5d24d8f829be88fbf13169",
+        "android_client_info": {
+          "package_name": "com.iuh.appChat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz6yS6PMjiDE6-oBBjkgEQ2_p63906ES8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,33 @@
 import 'package:app_chat/screens/auth/login_screen.dart';
 import 'package:app_chat/screens/home_screen.dart';
+import 'package:app_chat/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'firebase_options.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Ensure that Firebase is initialized
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure Flutter bindings are initialized
+
+  // hide the status bar
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+// for setting the orientation to portrait only
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) {
+    // initialize firebase
+    _initFirebase();
+    // run the app
+    runApp(const MyApp());
+  });
 }
+
+// global object the screen size
+late Size mq;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -24,6 +47,12 @@ class MyApp extends StatelessWidget {
                   fontSize: 19,
                   color: Colors.black)),
         ),
-        home: const LoginScreen());
+        home: const SplashScreen());
   }
+}
+
+_initFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
