@@ -1,3 +1,4 @@
+import 'package:app_chat/screens/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Logout function
+  Future<void> _logout() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +41,25 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
-        child: FloatingActionButton(onPressed: () async{
-          await FirebaseAuth.instance.signOut();
-          await GoogleSignIn().signOut();
-        },child: Icon(Icons.add_comment_rounded)),
+        child: FloatingActionButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              await GoogleSignIn().signOut();
+            },
+            child: Icon(Icons.add_comment_rounded)),
+      ),
+
+      // Body
+      body: Center(
+        child: ElevatedButton.icon(
+          onPressed: _logout, // Call the logout function
+          icon: const Icon(Icons.logout),
+          label: const Text('Logout'),
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            textStyle: const TextStyle(fontSize: 16),
+          ),
+        ),
       ),
     );
   }
