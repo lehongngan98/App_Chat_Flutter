@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_chat/api/apis.dart';
 import 'package:app_chat/screens/auth/login_screen.dart';
 import 'package:app_chat/widgets/chat_user_card.dart';
@@ -41,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
+      // Floating action button to add new user
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton(
@@ -64,11 +68,27 @@ class _HomeScreenState extends State<HomeScreen> {
       //   ),
       // ),
 
-      body: ListView.builder(
-        itemCount: 20,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index)  {
-          return const ChatUserCard();
+      body: StreamBuilder(
+        // 
+        stream: APIs.firestore.collection('users').snapshots(),
+        builder: (context, snapshot) {
+          final list = [];
+
+          if(snapshot.hasData){
+            final data = snapshot.data?.docs;
+            for (var item in data!) {
+              log('Data: ${item.data()}');
+              list.add(item.data()['name']);
+            }
+          }
+          return ListView.builder(
+            itemCount: list.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              // return const ChatUserCard();
+              return Text('User: ${list[index]}');
+            },
+          );
         },
       ),
     );
