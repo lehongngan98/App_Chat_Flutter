@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:app_chat/api/apis.dart';
 import 'package:app_chat/main.dart';
-import 'package:app_chat/screens/helper/dialogs.dart';
+import 'package:app_chat/helper/dialogs.dart';
 import 'package:app_chat/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      return await APIs.auth.signInWithCredential(credential);
     } catch (error) {
       log('\n_signInWithGoogle : $error');
       Dialogs.showSnackbar(context, 'Something went wrong (check your internet connection)');
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(children: [
         AnimatedPositioned(
             top: mq.height * .10,
-            left: _isAnimate ? mq.width * .3 : -mq.width * .5,
+            right: _isAnimate ? mq.width * .3 : -mq.width * .5,
             width: mq.width * .4,
             duration: const Duration(seconds: 1),
             child: Image.asset('images/chat.png')),

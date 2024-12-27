@@ -1,4 +1,6 @@
+import 'package:app_chat/api/apis.dart';
 import 'package:app_chat/screens/auth/login_screen.dart';
+import 'package:app_chat/widgets/chat_user_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Logout function
   Future<void> _logout() async {
-    await FirebaseAuth.instance.signOut();
+    await APIs.auth.signOut();
     await GoogleSignIn().signOut();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const LoginScreen()));
@@ -43,23 +45,31 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton(
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
+              await APIs.auth.signOut();
               await GoogleSignIn().signOut();
             },
             child: Icon(Icons.add_comment_rounded)),
       ),
 
       // Body
-      body: Center(
-        child: ElevatedButton.icon(
-          onPressed: _logout, // Call the logout function
-          icon: const Icon(Icons.logout),
-          label: const Text('Logout'),
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            textStyle: const TextStyle(fontSize: 16),
-          ),
-        ),
+      // body: Center(
+      //   child: ElevatedButton.icon(
+      //     onPressed: _logout, // Call the logout function
+      //     icon: const Icon(Icons.logout),
+      //     label: const Text('Logout'),
+      //     style: ElevatedButton.styleFrom(
+      //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      //       textStyle: const TextStyle(fontSize: 16),
+      //     ),
+      //   ),
+      // ),
+
+      body: ListView.builder(
+        itemCount: 20,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index)  {
+          return const ChatUserCard();
+        },
       ),
     );
   }
