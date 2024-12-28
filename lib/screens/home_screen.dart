@@ -1,12 +1,7 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:app_chat/api/apis.dart';
 import 'package:app_chat/models/chat_user.dart';
 import 'package:app_chat/screens/auth/login_screen.dart';
 import 'package:app_chat/widgets/chat_user_card.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -58,19 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Icon(Icons.add_comment_rounded)),
       ),
-
-      // Body
-      // body: Center(
-      //   child: ElevatedButton.icon(
-      //     onPressed: _logout, // Call the logout function
-      //     icon: const Icon(Icons.logout),
-      //     label: const Text('Logout'),
-      //     style: ElevatedButton.styleFrom(
-      //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      //       textStyle: const TextStyle(fontSize: 16),
-      //     ),
-      //   ),
-      // ),
 
       body: StreamBuilder(
         //

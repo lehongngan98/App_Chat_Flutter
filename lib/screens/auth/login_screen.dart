@@ -33,15 +33,25 @@ class _LoginScreenState extends State<LoginScreen> {
   _handleGoogleBtnClick() async {
     // Show progress bar
     Dialogs.showProgressBar(context);
-    _signInWithGoogle().then((user) {
+    _signInWithGoogle().then((user) async {
       // Hide progress bar
       Navigator.pop(context);
       if (user != null) {
         log('\nUser: ${user.user}');
         log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
 
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        // Check if user exists or not?
+        if (await APIs.userExist()) {
+          // If user exists then navigate to HomeScreen
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()));
+        } else {
+          // Create a new user and navigate to HomeScreen
+          await APIs.createUser().then((value) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          });
+        }
       }
     }).catchError((error) {
       print(error);
@@ -69,7 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
       return await APIs.auth.signInWithCredential(credential);
     } catch (error) {
       log('\n_signInWithGoogle : $error');
-      Dialogs.showSnackbar(context, 'Something went wrong (check your internet connection)');
+      Dialogs.showSnackbar(
+          context, 'Something went wrong (check your internet connection)');
       return null;
     }
   }
