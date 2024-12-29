@@ -1,11 +1,9 @@
 import 'package:app_chat/api/apis.dart';
 import 'package:app_chat/models/chat_user.dart';
-import 'package:app_chat/screens/auth/login_screen.dart';
 import 'package:app_chat/screens/profile_screen.dart';
 import 'package:app_chat/widgets/chat_user_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,12 +15,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<ChatUser> list = [];
 
-  // Logout function
-  Future<void> _logout() async {
-    await APIs.auth.signOut();
-    await GoogleSignIn().signOut();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+  @override
+  void initState() {    
+    super.initState();
+    APIs.getSelfInfo();
   }
 
   @override
@@ -41,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.more_vert),
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => ProfileScreen(user: list[0])));
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => ProfileScreen(user: APIs.me)));
             },
           ),
         ],
@@ -51,16 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton(
-            onPressed: () async {
-              await APIs.auth.signOut();
-              await GoogleSignIn().signOut();
-            },
-            child: Icon(Icons.add_comment_rounded)),
+            onPressed: () {}, child: Icon(Icons.add_comment_rounded)),
       ),
 
       body: StreamBuilder(
         //
-        stream: APIs.firestore.collection('users').snapshots(),
+        stream: APIs.getAllUser(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             // data is loading

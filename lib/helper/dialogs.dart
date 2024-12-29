@@ -8,10 +8,10 @@ class Dialogs {
         style: TextStyle(
           fontSize: 20.0, // Kích thước chữ
           fontWeight: FontWeight.bold, // Độ dày chữ
-          color: Colors.red, // Màu chữ
+          color: Colors.white, // Màu chữ
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 109, 171, 222),
+      backgroundColor: const Color.fromARGB(255, 0, 113, 205),
       behavior: SnackBarBehavior.floating,
     ));
   }
