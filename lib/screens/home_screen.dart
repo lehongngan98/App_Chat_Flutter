@@ -1,6 +1,7 @@
 import 'package:app_chat/api/apis.dart';
 import 'package:app_chat/models/chat_user.dart';
 import 'package:app_chat/screens/auth/login_screen.dart';
+import 'package:app_chat/screens/profile_screen.dart';
 import 'package:app_chat/widgets/chat_user_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.more_vert),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => ProfileScreen(user: list[0])));
+            },
           ),
         ],
       ),
@@ -66,10 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // if some or all data is loaded then show it
             case ConnectionState.active:
-            case ConnectionState.done:              
+            case ConnectionState.done:
               final data = snapshot.data?.docs;
               // convert data to list of ChatUser
-              list = data?.map((e) => ChatUser.fromJson(e.data())).toList() ?? [];
+              list =
+                  data?.map((e) => ChatUser.fromJson(e.data())).toList() ?? [];
               // check if list is not empty
               if (list.isNotEmpty) {
                 return ListView.builder(
@@ -80,7 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 );
               } else {
-                return const Center(child: Text('No user found', style: TextStyle(fontSize: 20)));
+                return const Center(
+                    child:
+                        Text('No user found', style: TextStyle(fontSize: 20)));
               }
           }
         },
